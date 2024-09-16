@@ -22,7 +22,9 @@ urlpatterns = [
     # Comment
 
     path('comments/', CommentViewSet.as_view({'get': 'list'}), name='comments-list'),
-    path('comments/create/<int:post_id>/', CommentViewSet.as_view({'post': 'create'}), name='comment-create'),
+    path('comment/create/<int:post_id>/', CommentViewSet.as_view({'post': 'create'}), name='comment-create'),
     path('comment/<int:pk>/', CommentViewSet.as_view({'get': 'retrieve'}), name='comment-retrieve'),
+    path('comment/update/<int:pk>/', CommentViewSet.as_view({'put': 'update'}), name='comment-update'),
+
     path('comment/<int:pk>/', CommentViewSet.as_view({'delete': 'delete'}), name='comment-delete'),
 ]

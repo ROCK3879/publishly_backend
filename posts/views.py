@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.views.decorators.http import require_http_methods
 
 from rest_framework import viewsets, status, permissions
@@ -257,47 +256,58 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     #     serializer = ProfileSerializer(profile)
     #     return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    def update(self, request, pk=None):
-    # Get the post_id from the URL        
+    def update(self, request, *args, **kwargs):
+        # Extract pk from the URL kwargs, as pk is passed in the URL
+        comment_id = kwargs.get('pk')  # pk refers to the primary key in the URL pattern
+        
         try:
-            post = Post.objects.get(pk=pk)
-        except Post.DoesNotExist:
-            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+            # Fetch the comment based on the comment_id (primary key)
+            comment = Comment.objects.get(comment_id=comment_id)
+        except Comment.DoesNotExist:
+            return Response({"error": "Comment not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        # Capture profile data from the request
-        post_content = request.data.get('post_content')
-        post_image_url = request.data.get('post_image_url')
+        # Get the authenticated user (the one who is updating the comment)
+        commented_by = request.data.get('commented_by')  # Assume this is a user ID
 
-        # Validate required fields
-        if not post_content or not post_image_url:
-            return Response({"error": "Missing required fields: post content or lastname."}, status=status.HTTP_400_BAD_REQUEST)
+        # Check if the user who is updating the comment is the same as the one who created it
+        try:
+            user = User.objects.get(user_id=commented_by)
+        except User.DoesNotExist:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if comment.user != user:
+            return Response({"error": "You are not authorized to update this comment."}, status=status.HTTP_403_FORBIDDEN)
+
+        # Capture the updated comment content from the request data
+        comment_content = request.data.get('comment_content')
+
+        # Validate that comment_content is provided
+        if not comment_content:
+            return Response({"error": "Missing required field: comment_content"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # Update the post with new data
-            post.post_content = post_content
-            post.post_image_url = post_image_url
-            post.save()
+            # Update the comment content
+            comment.comment_content = comment_content
+            comment.save()
 
-            # Serialize the updated post object
-            post_serializer = PostSerializer(post)
+            # Serialize the updated comment
+            comment_serializer = CommentSerializer(comment)
 
-            # Return success message with the serialized post data
+            # Return success response with serialized updated comment data
             return JsonResponse({
-                'post': post_serializer.data  # Serialized post data
+                'comment': comment_serializer.data  # Serialized updated comment data
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
    
     
     def delete(self, request, pk=None):
       try:
-        post= Post.objects.get(pk=pk)
-        post.delete()
-        return Response({'message': 'Post deleted successfully'}, status=status.HTTP_200_OK)
-      except Post.DoesNotExist:
-        return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+        comment= Comment.objects.get(pk=pk)
+        comment.delete()
+        return Response({'message': 'Comment deleted successfully'}, status=status.HTTP_200_OK)
+      except Comment.DoesNotExist:
+        return Response({'error': 'Comment not found'}, status=status.HTTP_404_NOT_FOUND)
       except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
