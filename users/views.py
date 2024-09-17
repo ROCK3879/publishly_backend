@@ -169,12 +169,13 @@ class ProfileViewSet(viewsets.ModelViewSet):
         queryset = self.get_queryset()
         serializer = ProfileSerializer(queryset, many=True)
         return Response(serializer.data)
-
+    
+    
     def create(self, request, *args, **kwargs):
-        user_id = kwargs.get('user_id')  # Get the user_id from the URL
+        pk = kwargs.get('pk')  # Get the pk (user_id) from the URL
         try:
-            # Fetch the user based on the user_id
-            user = User.objects.get(user_id=user_id)
+            # Fetch the user based on the pk (user_id)
+            user = User.objects.get(pk=pk)
         except User.DoesNotExist:
             return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -185,7 +186,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
         # Validate required fields
         if not user_bio or not user_website:
-            return Response({"error": "Missing required fields: firstname or lastname."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Missing required fields: user_bio or user_website."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             # Create the associated profile for the user
@@ -198,10 +199,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
             profile.save()  # Save the profile after setting followers and following
 
-            # Fetch the updated profile with followers and following
-            profile.refresh_from_db()
-
-            # Serialize the profile object with followers and following
+            # Serialize the profile object
             profile_serializer = ProfileSerializer(profile)
 
             # Return success message with the serialized profile data
@@ -211,6 +209,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
     def retrieve(self, request, pk=None):
         try:

@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from .views import PostViewSet,CommentViewSet, like_post,dislike_post
+from .views import PostViewSet,CommentViewSet,CategoryViewSet, like_post,dislike_post
 router = DefaultRouter()
 router.register(r'posts/', PostViewSet, basename='posts')
 
@@ -27,4 +27,11 @@ urlpatterns = [
     path('comment/update/<int:pk>/', CommentViewSet.as_view({'put': 'update'}), name='comment-update'),
 
     path('comment/<int:pk>/', CommentViewSet.as_view({'delete': 'delete'}), name='comment-delete'),
+
+    # Category
+    path('categories/', CategoryViewSet.as_view({'get': 'list'}), name='categories-list'),
+    path('category/create/', CategoryViewSet.as_view({'post': 'create'}), name='category-create'),
+    path('category/<int:pk>/', CategoryViewSet.as_view({'get': 'retrieve'}), name='category-retrieve'),
+    path('category/update/<int:pk>/', CategoryViewSet.as_view({'put': 'update'}), name='category-update'),
+    path('category/<int:pk>/', CategoryViewSet.as_view({'delete': 'delete'}), name='category-delete'),
 ]

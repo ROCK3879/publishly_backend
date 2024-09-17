@@ -5,9 +5,9 @@ from django.views.decorators.http import require_http_methods
 
 from rest_framework import viewsets, status, permissions
 from rest_framework.response import Response
-from .models import Post,Comment
+from .models import Post,Comment,Category
 from users.models import User
-from .serializers import PostSerializer,CommentSerializer
+from .serializers import PostSerializer,CommentSerializer,CategorySerializer
 from django.contrib.auth.hashers import make_password, check_password
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -93,9 +93,8 @@ class PostViewSet(viewsets.ModelViewSet):
         post_image_url = request.data.get('post_image_url')
 
         # Validate required fields
-        if not post_content or not post_image_url:
-            return Response({"error": "Missing required fields: post content or lastname."}, status=status.HTTP_400_BAD_REQUEST)
-
+        if not post_content :
+            return Response({"error": "Missing required fields: post content "}, status=status.HTTP_400_BAD_REQUEST)
         try:
             # Update the post with new data
             post.post_content = post_content
@@ -311,3 +310,93 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Response({'error': 'Comment not found'}, status=status.HTTP_404_NOT_FOUND)
       except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Category
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.AllowAny]
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = CategorySerializer(queryset, many=True)
+        return Response(serializer.data)
+        
+    def create(self, request, *args, **kwargs):
+
+        # Capture post data from the request
+        category_slug = request.data.get('category_slug')
+        category_name = request.data.get('category_name')
+    
+        # Validate required fields
+        if not category_slug or not category_name:
+            return Response({"error": "Missing required fields: category_slug or category_name"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Create the Post object
+            category = Category.objects.create(
+                category_slug=category_slug,
+                category_name=category_name,
+            )
+
+      
+
+            # Serialize the post object
+            category_serializer = CategorySerializer(category)
+
+            # Return success message with the serialized post data
+            return JsonResponse({
+                'post': category_serializer.data  # Serialized post data
+            }, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    # def retrieve(self, request, pk=None):
+    #     try:
+    #         profile = Profile.objects.get(pk=pk)
+    #     except Profile.DoesNotExist:
+    #         return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    #     serializer = ProfileSerializer(profile)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def update(self, request, pk=None):
+        try:
+            # Get the category by primary key (pk)
+            category = Category.objects.get(pk=pk)
+        except Category.DoesNotExist:
+            return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Capture category data from the request
+        category_slug = request.data.get('category_slug')
+        category_name = request.data.get('category_name')
+
+        # Update the category with the new data
+        category.category_slug = category_slug  # This should update the slug field
+        category.category_name = category_name  # This updates the name field
+        category.save()
+
+        # Serialize the updated category object
+        category_serializer = CategorySerializer(category)
+
+        # Return success message with the serialized category data
+        return JsonResponse({
+            'category': category_serializer.data  # Serialized category data
+        }, status=status.HTTP_200_OK)
+
+
+
+
+   
+    
+    def delete(self, request, pk=None):
+      try:
+        post= Post.objects.get(pk=pk)
+        post.delete()
+        return Response({'message': 'Post deleted successfully'}, status=status.HTTP_200_OK)
+      except Post.DoesNotExist:
+        return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+      except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    

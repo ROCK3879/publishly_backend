@@ -25,7 +25,7 @@ urlpatterns = [
     
     path('profiles/', ProfileViewSet.as_view({'get': 'list'}), name='profiles-list'),  # List all profiles
     path('profile/<int:pk>/', ProfileViewSet.as_view({'get': 'retrieve'}), name='profile-retrieve'),  # Retrieve a specific user's profile
-    path('user/<int:user_id>/profile/create/', ProfileViewSet.as_view({'post': 'create'}), name='profile-create'),  # Create a profile for a specific user
+    path('profile/create/<int:pk>/', ProfileViewSet.as_view({'post': 'create'}), name='profile-create'),  # Create a profile for a specific user
     path('profile/update/<int:pk>/', ProfileViewSet.as_view({'put': 'update'}), name='profile-update'),  # Update a specific user's profile
     path('profile/<int:pk>/', ProfileViewSet.as_view({'delete': 'delete'}), name='profile-delete'),  # Delete a specific user's profile
    
