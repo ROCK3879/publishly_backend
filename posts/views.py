@@ -38,8 +38,7 @@ class PostViewSet(viewsets.ModelViewSet):
         # Capture post data from the request
         post_content = request.data.get('post_content')
         post_image_url = request.data.get('post_image_url')
-        post_like_count = request.data.get('post_like_count', 0)  # Default to 0 if not provided
-        post_liked_by = request.data.get('post_liked_by', [])  # List of user IDs who liked the post
+        category_id = request.data.get('category_id')
 
         # Validate required fields
         if not post_content or not post_image_url:
@@ -51,15 +50,15 @@ class PostViewSet(viewsets.ModelViewSet):
                 user=user,
                 post_content=post_content,
                 post_image_url=post_image_url,
-                post_like_count=post_like_count,
+                category_id=category_id,
             )
 
             # Add users to the post_liked_by ManyToMany field
-            if post_liked_by:
-                liked_users = User.objects.filter(user_id__in=post_liked_by)  # Get the users from the list of IDs
-                post.post_liked_by.add(*liked_users)  # Add the users to the ManyToMany field
+            # if post_liked_by:
+            #     liked_users = User.objects.filter(user_id__in=post_liked_by)  # Get the users from the list of IDs
+            #     post.post_liked_by.add(*liked_users)  # Add the users to the ManyToMany field
 
-            # Save the post
+            # # Save the post
             post.save()
 
             # Serialize the post object
