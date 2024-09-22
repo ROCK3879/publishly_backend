@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['user_id', 'user_firstname','user_lastname','user_username', 'user_email', 'followers', 'following']
+        fields = ['user_id','is_superuser', 'user_firstname','user_lastname','user_username', 'user_email', 'followers', 'following']
 
     def get_followers(self, obj):
         # Get the list of users who follow this user

@@ -75,8 +75,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'rest_framework_simplejwt',
     "users",
-    'user',
+    # 'user',
     'posts',
+  
     'rest_framework',
     'corsheaders',
 
@@ -147,7 +148,7 @@ DATABASES = {
 
 
 ## User model
-AUTH_USER_MODEL = 'user.Appuser'
+AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

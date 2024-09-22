@@ -125,8 +125,10 @@ def login_user(request):
     password = data.get('password')
 
     # Ensure both email and password are provided
-    if not email or not password:
-        return JsonResponse({"error": "Email and password are required"}, status=status.HTTP_400_BAD_REQUEST)
+    if not email :
+        return JsonResponse({"error": "Email required"}, status=status.HTTP_400_BAD_REQUEST)
+    if  not password:
+        return JsonResponse({"error": " password are required"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         # Fetch the user based on email
@@ -135,8 +137,9 @@ def login_user(request):
         return JsonResponse({"error": "Invalid email or password"}, status=status.HTTP_400_BAD_REQUEST)
 
     # Verify the password using check_password
-    if not check_password(password, user.password):
-        return JsonResponse({"error": "Invalid email or password"}, status=status.HTTP_400_BAD_REQUEST)
+   # Verify the password using check_password
+    if not user.check_password(password):  # Use this method to check the hashed password
+     return JsonResponse({"error": "Error to while checking the  password"}, status=status.HTTP_400_BAD_REQUEST)
 
     # Generate JWT token for the user
     refresh = RefreshToken.for_user(user)
@@ -148,6 +151,7 @@ def login_user(request):
                 'username': user.user_username,
                 'email': user.user_email,
                 'id': user.user_id,
+                'is_superuser':user.is_superuser,
             },
         "encodedToken": access_token  # JWT token
     }, status=status.HTTP_200_OK)
