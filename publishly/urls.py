@@ -15,26 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from main.views import homepage,customer_page,admin_page,admin_dashboard,customer_dashboard,customer_register,about_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('api/', include('user.urls')),
     path('api/',include('users.urls')),
+    path('api/',include('user.urls')),
+
     path('api/',include('posts.urls')),
 
-    path('api/',include('tablelist.urls')),
-    path('api/',include('booktable.urls')),
-     path('', homepage, name='homepage'), 
-    path('about/', about_page, name='about_page'),
- 
-      path('customer/', customer_page, name='customer_page'),
-    # path('admin/', admin_page, name='admin_page'),# Set the homepage view as the root URL
-        path('admin/dashboard/', admin_dashboard, name='admin_dashboard'),
-
-        path('customer/dashboard/', customer_dashboard, name='customer_dashboard'),
-
-        path('customer/register/', customer_register, name='customer_register'),
+  
 
 
 

@@ -41,7 +41,10 @@ CORS_ALLOWED_ORIGINS = [
         "http://localhost:3000",
     
 ]
-
+AUTHENTICATION_BACKENDS = [
+    'path.to.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Optional: Default backend to still allow username-based login
+]
 
 CORS_ALLOW_CREDENTIALS = False
 # settings.py
@@ -72,10 +75,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'rest_framework_simplejwt',
     "users",
+    'user',
     'posts',
-    "booktable",
-    'tablelist',
-    'main',
     'rest_framework',
     'corsheaders',
 
@@ -146,7 +147,7 @@ DATABASES = {
 
 
 ## User model
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'user.Appuser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
