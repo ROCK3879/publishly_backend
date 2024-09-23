@@ -14,7 +14,7 @@ import json
 from django.shortcuts import get_object_or_404
 
 from django.http import JsonResponse
-
+# UserViewSet
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -60,10 +60,19 @@ class UserViewSet(viewsets.ModelViewSet):
             access_token = str(refresh.access_token)
 
             # Return success message, the serialized user object, and the JWT token
+            # return JsonResponse({
+            #     'foundUser': serializer.data,  # Return the entire serialized user object
+            #     "encodedToken": access_token  # JWT token
+            # }, status=status.HTTP_201_CREATED)
             return JsonResponse({
-                'foundUser': serializer.data,  # Return the entire serialized user object
-                "encodedToken": access_token  # JWT token
-            }, status=status.HTTP_201_CREATED)
+                'foundUser': {
+                'username': user.user_username,
+                'email': user.user_email,
+                'id': user.user_id,
+                'is_superuser':user.is_superuser,
+            },
+                 "encodedToken": access_token  # JWT token
+             },  status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -83,7 +92,6 @@ class UserViewSet(viewsets.ModelViewSet):
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
   
-        # customer_id = request.data.get('customer')  # Expecting customer_id
         user_username = request.data.get('user_username')
         user_email = request.data.get('user_email')
         password = request.data.get('user_password')
@@ -91,8 +99,6 @@ class UserViewSet(viewsets.ModelViewSet):
         # Validate required fields
         if not user_username or not user_email or not password  :
             return Response({"error": "Missing required fields."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Check if a table with the same date already exists
         
         serializer = UserSerializer(user, data=request.data, partial=True)  # Use partial=True for partial updates
         if serializer.is_valid():
@@ -137,7 +143,6 @@ def login_user(request):
         return JsonResponse({"error": "Invalid email or password"}, status=status.HTTP_400_BAD_REQUEST)
 
     # Verify the password using check_password
-   # Verify the password using check_password
     if not user.check_password(password):  # Use this method to check the hashed password
      return JsonResponse({"error": "Error to while checking the  password"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -155,15 +160,8 @@ def login_user(request):
             },
         "encodedToken": access_token  # JWT token
     }, status=status.HTTP_200_OK)
-# def register_user(request):
-#     return render(request, 'auth/register_customer.html')
 
-# def login_page(request):
-#     return render(request, 'auth/login_customer.html')
-
-# def book_table_page(request):
-#     return render(request, 'auth/book_table.html')
-
+# ProfileViewSet
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer

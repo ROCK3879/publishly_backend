@@ -65,9 +65,7 @@ class Profile(models.Model):
     # One-to-One relationship with the customized User model
     profile_id = models.AutoField(primary_key=True,null=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    # user_firstname = models.CharField(max_length=255)
-    # user_lastname = models.CharField(max_length=255)
-    # Additional fields for the profile
+ 
 
     user_bio = models.TextField(blank=True, null=True)
     user_website = models.URLField(blank=True, null=True)

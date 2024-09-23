@@ -79,6 +79,8 @@ class PostViewSet(viewsets.ModelViewSet):
 
     #     serializer = ProfileSerializer(profile)
     #     return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # Update A post
     
     def update(self, request, pk=None):
     # Get the post_id from the URL        
@@ -112,7 +114,7 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
    
-    
+    # Delete A post
     def delete(self, request, pk=None):
       try:
         post= Post.objects.get(pk=pk)
@@ -245,15 +247,18 @@ class CommentViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        # Retrive A comment
 
-    # def retrieve(self, request, pk=None):
-    #     try:
-    #         profile = Profile.objects.get(pk=pk)
-    #     except Profile.DoesNotExist:
-    #         return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+    def retrieve(self, request, pk=None):
+        try:
+            comment = Comment.objects.get(pk=pk)
+        except Comment.DoesNotExist:
+            return Response({'error': 'Comment not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    #     serializer = ProfileSerializer(profile)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+# 
+    # Update comment
     def update(self, request, *args, **kwargs):
         # Extract pk from the URL kwargs, as pk is passed in the URL
         comment_id = kwargs.get('pk')  # pk refers to the primary key in the URL pattern
@@ -310,7 +315,9 @@ class CommentViewSet(viewsets.ModelViewSet):
       except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# Category
+
+
+# Category View
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -324,7 +331,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         
     def create(self, request, *args, **kwargs):
 
-        # Capture post data from the request
+        # Capture category data from the request
         category_slug = request.data.get('category_slug')
         category_name = request.data.get('category_name')
     
@@ -333,7 +340,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
             return Response({"error": "Missing required fields: category_slug or category_name"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # Create the Post object
+            # Create the category object
             category = Category.objects.create(
                 category_slug=category_slug,
                 category_name=category_name,
@@ -341,12 +348,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
       
 
-            # Serialize the post object
+            # Serialize the category object
             category_serializer = CategorySerializer(category)
 
-            # Return success message with the serialized post data
+            # Return success message with the serialized category data
             return JsonResponse({
-                'post': category_serializer.data  # Serialized post data
+                'post': category_serializer.data  # Serialized category data
             }, status=status.HTTP_201_CREATED)
 
         except Exception as e:
