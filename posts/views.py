@@ -351,14 +351,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    # def retrieve(self, request, pk=None):
-    #     try:
-    #         profile = Profile.objects.get(pk=pk)
-    #     except Profile.DoesNotExist:
-    #         return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+  
 
-    #     serializer = ProfileSerializer(profile)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    # Update Category
     
     def update(self, request, pk=None):
         try:
@@ -388,14 +383,14 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
    
-    
+    # Delete Category
     def delete(self, request, pk=None):
       try:
-        post= Post.objects.get(pk=pk)
-        post.delete()
-        return Response({'message': 'Post deleted successfully'}, status=status.HTTP_200_OK)
-      except Post.DoesNotExist:
-        return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+        category= Category.objects.get(pk=pk)
+        category.delete()
+        return Response({'message': 'Category deleted successfully'}, status=status.HTTP_200_OK)
+      except Category.DoesNotExist:
+        return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
       except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
