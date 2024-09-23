@@ -42,7 +42,6 @@ CORS_ALLOWED_ORIGINS = [
     
 ]
 AUTHENTICATION_BACKENDS = [
-    'path.to.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',  # Optional: Default backend to still allow username-based login
 ]
 
@@ -96,18 +95,6 @@ MIDDLEWARE = [
     # 'user.middleware.SessionCheckMiddleware',  # Your custom middleware
 ]
 
-# MIDDLEWARE_CLASSES = [
-#         'corsheaders.middleware.CorsMiddleware',
-#     "django.middleware.security.SecurityMiddleware",
-#     "django.contrib.sessions.middleware.SessionMiddleware",
-#         'main.middleware.SessionCheckMiddleware',  # Add this line
-
-#     "django.middleware.common.CommonMiddleware",
-#     "django.middleware.csrf.CsrfViewMiddleware",
-#     "django.contrib.auth.middleware.AuthenticationMiddleware",
-#     "django.contrib.messages.middleware.MessageMiddleware",
-#     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-# ]
 
 ROOT_URLCONF = "publishly.urls"
 
@@ -136,11 +123,11 @@ WSGI_APPLICATION = "publishly.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "publishly",
-        "HOST":"localhost",
+        "NAME": "d1tncdds1kjl79",
+        "HOST":"c9mq4861d16jlm.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com",
         "PORT":"5432",
-        "USER":"postgres",
-        "PASSWORD":"postgres",
+        "USER":"ufjvf9rj8qkt68",
+        "PASSWORD":"p5a9135d7d8410419cea4d814c55388832576ccf53fe1e86e91713b909abc1ae7",
 
     }
 }
