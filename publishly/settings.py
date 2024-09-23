@@ -35,7 +35,7 @@ SESSION_COOKIE_NAME = 'sessionid'
 # settings.py
 SESSION_COOKIE_HTTPONLY = False  # Allow JavaScript access (not recommended for production)
 CORS_ALLOW_CREDENTIALS = True
-ALLOWED_HOSTS = ['https://restaurant-booking-no1-ae7b2991e60d.herokuapp.com',]
+ALLOWED_HOSTS = ['https://publishly-backend-8e89adfbeaf2.herokuapp.com/',]
 
 CORS_ALLOWED_ORIGINS = [
         "http://localhost:3000",
