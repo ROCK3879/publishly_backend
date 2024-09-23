@@ -60,20 +60,11 @@ class UserViewSet(viewsets.ModelViewSet):
             access_token = str(refresh.access_token)
 
             # Return success message, the serialized user object, and the JWT token
-            # return JsonResponse({
-            #     'foundUser': serializer.data,  # Return the entire serialized user object
-            #     "encodedToken": access_token  # JWT token
-            # }, status=status.HTTP_201_CREATED)
             return JsonResponse({
-                'foundUser': {
-                'username': user.user_username,
-                'email': user.user_email,
-                'id': user.user_id,
-                'is_superuser':user.is_superuser,
-            },
-                 "encodedToken": access_token  # JWT token
-             },  status=status.HTTP_200_OK)
-
+                'foundUser': serializer.data,  # Return the entire serialized user object
+                "encodedToken": access_token  # JWT token
+            }, status=status.HTTP_201_CREATED)
+          
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 

@@ -1,1 +1,1 @@
-web gunicorn restaurant_booking.wsgi:application --log-file -
+web gunicorn publishly.wsgi:application --log-file -

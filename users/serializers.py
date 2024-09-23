@@ -6,7 +6,7 @@ from .models import User,Profile,Follower
 class UserSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['user_id','user_firstname','user_lastname', 'user_username', 'user_email']
+        fields = ['user_id','user_firstname','user_lastname','is_superuser', 'user_username', 'user_email']
 
 class UserSerializer(serializers.ModelSerializer):
     followers = serializers.SerializerMethodField()
