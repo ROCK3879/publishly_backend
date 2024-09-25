@@ -35,10 +35,11 @@ SESSION_COOKIE_NAME = 'sessionid'
 # settings.py
 SESSION_COOKIE_HTTPONLY = False  # Allow JavaScript access (not recommended for production)
 CORS_ALLOW_CREDENTIALS = True
-ALLOWED_HOSTS = ['https://publishly-backend-8e89adfbeaf2.herokuapp.com/',]
+ALLOWED_HOSTS = ['https://publishly-backend-8e89adfbeaf2.herokuapp.com/','https://publishly.netlify.app/']
 
 CORS_ALLOWED_ORIGINS = [
         "http://localhost:3000",
+        "https://publishly.netlify.app/",
     
 ]
 AUTHENTICATION_BACKENDS = [
