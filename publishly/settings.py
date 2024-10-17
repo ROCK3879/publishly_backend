@@ -14,40 +14,36 @@ from pathlib import Path
 import os
 import django_heroku
 import dj_database_url
-
+import environ
+env = environ.Env(DEBUG=(bool, False))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-u)2-q5$5t(+&^ef#s#%hadx29z%x*k&zirr*8nb*!!*49c)db2"
-
+SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = ['*']
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or cache, file, etc.
-SESSION_COOKIE_NAME = 'sessionid'
-
-# settings.py
-SESSION_COOKIE_HTTPONLY = False  # Allow JavaScript access (not recommended for production)
-CORS_ALLOW_CREDENTIALS = True
-ALLOWED_HOSTS = ['https://publishly-backend-8e89adfbeaf2.herokuapp.com/','https://publishly-46a2edd7f6b7.herokuapp.com/']
+DEBUG = env("DEBUG")
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(" ")
 
 CORS_ALLOWED_ORIGINS = [
         "http://localhost:3000",
         "https://publishly-46a2edd7f6b7.herokuapp.com",
     
 ]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or cache, file, etc.
+SESSION_COOKIE_NAME = 'sessionid'
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Optional: Default backend to still allow username-based login
 ]
 
-CORS_ALLOW_CREDENTIALS = False
-# settings.py
 
 # URL prefix for static files
 
@@ -123,15 +119,15 @@ WSGI_APPLICATION = "publishly.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "d1tncdds1kjl79",
-        "HOST":"c9mq4861d16jlm.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com",
-        "PORT":"5432",
-        "USER":"ufjvf9rj8qkt68",
-        "PASSWORD":"p5a9135d7d8410419cea4d814c55388832576ccf53fe1e86e91713b909abc1ae7",
-
+        "ENGINE":env("POSTGRES_ENGINE"),
+        "NAME": env('DB_NAME'),
+        "USER": env('DB_USER'),
+        "PASSWORD": env('DB_PASSWORD'),
+        "HOST": env('DB_HOST'),
+        "PORT": env('DB_PORT', default='5432'),
     }
 }
+
 
 
 
