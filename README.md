@@ -70,25 +70,25 @@ Delete Category: DELETE /api/category/<int:pk>/
 
 # Manual Testing using Postman
 ## List all the posts
-![List all the posts](/images/4.0.readme_manual_testing_using_postman)
+![List all the posts](images/4.0.readme_manual_testing_using_postman.png)
 
 ## Create a Post
-![Create a Post](src/images/)
+![Create a Post](images/4.1.readme_create_post.png)
 
 ## Delete a Post
-![Delete a Post](src/images/)
+![Delete a Post](images/4.2.readme_delete_post.png)
 
 ## Like a Post
-![Like a Post](src/images/)
+![Like a Post](images/4.3.readme_like_post.png)
 
 ## List Categories
-![List Categories](src/images/)
+![List Categories](images/4.4.readme_list_categories.png)
 
 ## Add a Category
-![Add a Category](src/images/)
+![Add a Category](images/4.5.readme_add_categories.png)
 
 ## Delete a Category
-![Delete a Category](src/images/)
+![Delete a Category](images/4.6.readme_delete_category.png)
 
 
 
