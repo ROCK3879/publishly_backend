@@ -70,7 +70,7 @@ Delete Category: DELETE /api/category/<int:pk>/
 
 # Manual Testing using Postman
 ## List all the posts
-![List all the posts](src/images/)
+![List all the posts](../images/4.0.readme_manual_testing_using_postman)
 
 ## Create a Post
 ![Create a Post](src/images/)
