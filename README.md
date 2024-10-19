@@ -67,3 +67,42 @@ Create Category: POST /api/category/create/
 Retrieve Category: GET /api/category/<int:pk>/
 Update Category: PUT /api/category/update/<int:pk>/
 Delete Category: DELETE /api/category/<int:pk>/
+
+# Manual Testing using Postman
+## List all the posts
+![List all the posts](src/images/)
+
+## Create a Post
+![Create a Post](src/images/)
+
+## Delete a Post
+![Delete a Post](src/images/)
+
+## Like a Post
+![Like a Post](src/images/)
+
+## List Categories
+![List Categories](src/images/)
+
+## Add a Category
+![Add a Category](src/images/)
+
+## Delete a Category
+![Delete a Category](src/images/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
