@@ -19,7 +19,6 @@ tzdata==2024.1
 whitenoise==6.7.0
 python-decouple==3.8
 django-environ==0.9.0
----
 
 # Users Endpoints
 
@@ -30,7 +29,6 @@ Update User: PUT /api/user/update/<int:pk>/
 Delete User: DELETE /api/user/<int:pk>/
 User Login: POST /api/user/login/
 
-
 # Profile Endpoints
 
 List Profiles: GET /api/profiles/
@@ -40,24 +38,23 @@ Update Profile: PUT /api/profile/update/<int:pk>/
 Delete Profile: DELETE /api/profile/<int:pk>/
 
 # Followers Endpoints
+
 List Followers: GET /api/followers/
 Create Follower: POST /api/user/follow/<int:pk>/
 Delete Follower: DELETE /api/user/unfollow/<int:pk>/
 
 # Posts Endpoints
+
 List Posts: GET /api/posts/
-
 Create Post: POST /api/post/create/<int:user_id>/
-
 Retrieve Post: GET /api/post/<int:pk>/
-
 Update Post: PUT /api/post/update/<int:pk>/
-
 Delete Post: DELETE /api/post/<int:pk>/
 Like Post: POST /api/posts/like/<int:post_id>/
 Dislike Post:Post /api/posts/dislike/<int:post_id>/
 
 # Comment Endpoints
+
 List Comment: GET /api/comments/
 Create Comment: POST /api/comment/create/<int:post_id>/
 Retrieve Comment: GET /api/comment/<int:pk>/
@@ -65,6 +62,7 @@ Update Comment: PUT /api/comment/update/<int:pk>/
 Delete Comment: DELETE /api/comment/<int:pk>/'
 
 # Category Endpoints
+
 List Category: GET /api/categories/
 Create Category: POST /api/category/create/
 Retrieve Category: GET /api/category/<int:pk>/
@@ -72,6 +70,7 @@ Update Category: PUT /api/category/update/<int:pk>/
 Delete Category: DELETE /api/category/<int:pk>/
 
 # Manual Testing using Postman
+
 ## List all the posts
 ![List all the posts](images/4.0.readme_manual_testing_using_postman.png)
 
