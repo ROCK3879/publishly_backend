@@ -19,8 +19,10 @@ tzdata==2024.1
 whitenoise==6.7.0
 python-decouple==3.8
 django-environ==0.9.0
+---
 
 # Users Endpoints
+
 List Users: GET /api/users/
 Create User: POST /api/users/create/
 Retrieve User: GET /api/user/<int:pk>/
@@ -30,6 +32,7 @@ User Login: POST /api/user/login/
 
 
 # Profile Endpoints
+
 List Profiles: GET /api/profiles/
 Create Profile: POST /api/profile/create/<int:pk>/
 Retrieve Profile: GET /api/profile/<int:pk>/
